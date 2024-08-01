@@ -807,7 +807,13 @@ idScreenRect	R_CalcLightScissorRectangle( viewLight_t *vLight ) {
 	if ( vLight->lightDef->parms.pointLight ) {
 		idBounds bounds;
 		idRenderLightLocal *lightDef = vLight->lightDef;
-		tr.viewDef->viewFrustum.ProjectionBounds( idBox( lightDef->parms.origin, lightDef->parms.lightRadius, lightDef->parms.axis ), bounds );
+		float radiusMultiplier;
+		if ( vLight->lightShader->IsFogLight() ) {
+			radiusMultiplier = 1.0f;
+		} else {
+			radiusMultiplier = r_lightRadius.GetFloat();
+		}
+		tr.viewDef->viewFrustum.ProjectionBounds( idBox( lightDef->parms.origin, lightDef->parms.lightRadius * radiusMultiplier, lightDef->parms.axis ), bounds );
 		return R_ScreenRectFromViewFrustumBounds( bounds );
 	}
 

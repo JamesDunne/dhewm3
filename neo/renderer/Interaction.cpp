@@ -738,7 +738,8 @@ idScreenRect idInteraction::CalcInteractionScissorRectangle( const idFrustum &vi
 
 	// calculate bounds of the interaction frustum projected into the view frustum
 	if ( lightDef->parms.pointLight ) {
-		viewFrustum.ClippedProjectionBounds( frustum, idBox( lightDef->parms.origin, lightDef->parms.lightRadius, lightDef->parms.axis ), projectionBounds );
+		float radiusMultiplier = r_lightRadius.GetFloat();
+		viewFrustum.ClippedProjectionBounds( frustum, idBox( lightDef->parms.origin, lightDef->parms.lightRadius * radiusMultiplier, lightDef->parms.axis ), projectionBounds );
 	} else {
 		viewFrustum.ClippedProjectionBounds( frustum, idBox( lightDef->frustumTris->bounds ), projectionBounds );
 	}
@@ -785,7 +786,8 @@ bool idInteraction::CullInteractionByViewFrustum( const idFrustum &viewFrustum )
 		}
 
 		if ( lightDef->parms.pointLight ) {
-			frustum.ConstrainToBox( idBox( lightDef->parms.origin, lightDef->parms.lightRadius, lightDef->parms.axis ) );
+			float radiusMultiplier = r_lightRadius.GetFloat();
+			frustum.ConstrainToBox( idBox( lightDef->parms.origin, lightDef->parms.lightRadius * radiusMultiplier, lightDef->parms.axis ) );
 		} else {
 			frustum.ConstrainToBox( idBox( lightDef->frustumTris->bounds ) );
 		}

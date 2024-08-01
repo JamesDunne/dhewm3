@@ -971,6 +971,7 @@ extern idCVar r_shadowPolygonFactor;	// scale value for stencil shadow drawing
 
 extern idCVar r_jitter;					// randomly subpixel jitter the projection matrix
 extern idCVar r_lightSourceRadius;		// for soft-shadow sampling
+extern idCVar r_lightRadius;			// light radius multiplier (default 1.0)
 extern idCVar r_lockSurfaces;
 extern idCVar r_orderIndexes;			// perform index reorganization to optimize vertex use
 

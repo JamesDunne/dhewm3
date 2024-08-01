@@ -1085,12 +1085,13 @@ void R_MakeShadowFrustums( idRenderLightLocal *light ) {
 		};
 
 		bool	centerOutside = false;
+		float radiusMultiplier = r_lightRadius.GetFloat();
 
 		// if the light center of projection is outside the light bounds,
 		// we will need to build the planes a little differently
-		if ( fabs( light->parms.lightCenter[0] ) > light->parms.lightRadius[0]
-			|| fabs( light->parms.lightCenter[1] ) > light->parms.lightRadius[1]
-			|| fabs( light->parms.lightCenter[2] ) > light->parms.lightRadius[2] ) {
+		if ( fabs( light->parms.lightCenter[0] ) > (light->parms.lightRadius[0] * radiusMultiplier)
+			|| fabs( light->parms.lightCenter[1] ) > (light->parms.lightRadius[1] * radiusMultiplier)
+			|| fabs( light->parms.lightCenter[2] ) > (light->parms.lightRadius[2] * radiusMultiplier) ) {
 			centerOutside = true;
 		}
 
@@ -1101,9 +1102,9 @@ void R_MakeShadowFrustums( idRenderLightLocal *light ) {
 			idVec3	temp;
 			for ( j = 0 ; j < 3 ; j++ ) {
 				if ( i & ( 1 << j ) ) {
-					temp[j] = light->parms.lightRadius[j];
+					temp[j] = light->parms.lightRadius[j] * radiusMultiplier;
 				} else {
-					temp[j] = -light->parms.lightRadius[j];
+					temp[j] = -light->parms.lightRadius[j] * radiusMultiplier;
 				}
 			}
 

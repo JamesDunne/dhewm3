@@ -382,6 +382,8 @@ void R_DeriveLightData( idRenderLightLocal *light ) {
 		}
 	}
 
+	float radiusMultiplier = r_lightRadius.GetFloat();
+
 	// set the projection
 	if ( !light->parms.pointLight ) {
 		// projected light
@@ -398,6 +400,11 @@ void R_DeriveLightData( idRenderLightLocal *light ) {
 		light->lightProject[1][3] = 0.5f;
 		light->lightProject[2][3] = 1.0f;
 		light->lightProject[3][3] = 0.5f;
+		if (!light->lightShader->IsFogLight()) {
+			light->lightProject[0][0] /= radiusMultiplier;
+			light->lightProject[1][1] /= radiusMultiplier;
+			light->lightProject[3][2] /= radiusMultiplier;
+		}
 	}
 
 	// set the frustum planes
