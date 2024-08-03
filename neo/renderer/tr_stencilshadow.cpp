@@ -1085,7 +1085,12 @@ void R_MakeShadowFrustums( idRenderLightLocal *light ) {
 		};
 
 		bool	centerOutside = false;
-		float radiusMultiplier = r_lightRadius.GetFloat();
+		float radiusMultiplier;
+		if ( light->lightShader->IsFogLight() ) {
+			radiusMultiplier = 1.0f;
+		} else {
+			radiusMultiplier = r_lightRadius.GetFloat();
+		}
 
 		// if the light center of projection is outside the light bounds,
 		// we will need to build the planes a little differently
